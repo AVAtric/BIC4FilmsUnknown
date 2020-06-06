@@ -2215,6 +2215,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     QueryMessage: QueryMessage
@@ -2222,16 +2239,14 @@ __webpack_require__.r(__webpack_exports__);
   name: "ActorsSearch",
   data: function data() {
     return {
-      tcolumn: [],
       actors: [],
-      actorsData: []
+      keys: ["id", "name"],
+      search: ""
     };
   },
   props: {},
   created: function created() {
     this.fetchActors();
-    this.fillActors();
-    this.tcolumn = Object.keys(this.actors[0]);
   },
   methods: {
     fetchActors: function fetchActors() {
@@ -2240,21 +2255,17 @@ __webpack_require__.r(__webpack_exports__);
       fetch("/list/actor").then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.actorsData = res;
-        console.log(_this.actorsData);
+        _this.actors = res;
+        console.log(_this.actors);
       });
-    },
-    fillActors: function fillActors() {
+    }
+  },
+  computed: {
+    filteredActors: function filteredActors() {
       var _this2 = this;
 
-      this.actors = [];
-      this.actorsData.forEach(function (element) {
-        var actor = {
-          id: element.id,
-          name: element.name
-        };
-
-        _this2.actors.push(actor);
+      return this.actors.filter(function (actor) {
+        return actor.name.match(_this2.search);
       });
     }
   }
@@ -2725,7 +2736,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ntable[data-v-1c3f825c] {\n  font-family: \"Open Sans\", sans-serif;\n  width: 750px;\n  border-collapse: collapse;\n  border: 3px solid #44475c;\n  margin: 10px 10px 0 10px;\n}\ntable th[data-v-1c3f825c] {\n  text-transform: uppercase;\n  text-align: left;\n  background: #44475c;\n  color: #fff;\n  padding: 8px;\n  min-width: 30px;\n}\ntable td[data-v-1c3f825c] {\n  text-align: left;\n  padding: 8px;\n  border-right: 2px solid #7d82a8;\n}\ntable td[data-v-1c3f825c]:last-child {\n  border-right: none;\n}\ntable tbody tr:nth-child(2n) td[data-v-1c3f825c] {\n  background: #d4d8f9;\n}\n", ""]);
+exports.push([module.i, "\ntable[data-v-1c3f825c] {\n  font-family: \"Open Sans\", sans-serif;\n  border-collapse: collapse;\n  border: 3px solid #36ecbf;\n}\ntable th[data-v-1c3f825c] {\n  text-transform: uppercase;\n  text-align: left;\n  background: #36ecbf;\n  color: #fff;\n  padding: 8px;\n  min-width: 30px;\n}\ntable td[data-v-1c3f825c] {\n  text-align: left;\n  padding: 8px;\n  border-right: 2px solid #36ecbf;\n}\ntable td[data-v-1c3f825c]:last-child {\n  border-right: none;\n}\ntable tbody tr:nth-child(2n) td[data-v-1c3f825c] {\n  background: #c2f5e8;\n}\n", ""]);
 
 // exports
 
@@ -21373,30 +21384,73 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("table", [
-      _c("thead", [
-        _c(
-          "tr",
-          _vm._l(_vm.tcolumn, function(col) {
-            return _c("th", { key: col.id }, [_vm._v(_vm._s(col))])
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
+    _c("div", { staticClass: "columns is-multiline" }, [
       _c(
-        "tbody",
-        _vm._l(_vm.actors, function(row) {
-          return _c(
-            "tr",
-            { key: row.id },
-            _vm._l(_vm.tcolumn, function(col) {
-              return _c("td", { key: col.id }, [_vm._v(_vm._s(row[col]))])
-            }),
-            0
-          )
-        }),
-        0
+        "div",
+        { staticClass: "card blog-card column is-half is-offset-one-quarter" },
+        [
+          _c("header", { staticClass: "card-header" }, [
+            _c("h1", {
+              staticClass: "card-header-title is-size-4 is-centered",
+              domProps: { textContent: _vm._s("Search Actors") }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "content" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: "input is-primary is-outlined is-fullwidth",
+                attrs: { type: "text", placeholder: "search actors" },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("table", [
+                _c("thead", [
+                  _c(
+                    "tr",
+                    _vm._l(_vm.keys, function(col) {
+                      return _c("th", { key: col.id }, [_vm._v(_vm._s(col))])
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.filteredActors, function(row) {
+                    return _c(
+                      "tr",
+                      { key: row.id },
+                      _vm._l(_vm.keys, function(col) {
+                        return _c("td", { key: col.id }, [
+                          _vm._v(_vm._s(row[col]))
+                        ])
+                      }),
+                      0
+                    )
+                  }),
+                  0
+                )
+              ])
+            ])
+          ])
+        ]
       )
     ])
   ])

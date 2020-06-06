@@ -1,17 +1,34 @@
 <template>
   <div class="container">
-    <table>
-      <thead>
-        <tr>
-          <th v-for="col in tcolumn" :key="col.id">{{col}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="row in actors" :key="row.id">
-          <td v-for="col in tcolumn" :key="col.id">{{row[col]}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="columns is-multiline">
+      <div class="card blog-card column is-half is-offset-one-quarter">
+        <header class="card-header">
+          <h1 class="card-header-title is-size-4 is-centered" v-text="'Search Actors'" />
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <input
+              type="text"
+              class="input is-primary is-outlined is-fullwidth"
+              v-model="search"
+              placeholder="search actors"
+            />
+            <table>
+              <thead>
+                <tr>
+                  <th v-for="col in keys" :key="col.id">{{col}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="row in filteredActors" :key="row.id">
+                  <td v-for="col in keys" :key="col.id">{{row[col]}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,9 +41,9 @@ export default {
   name: "ActorsSearch",
   data() {
     return {
-      tcolumn: [],
       actors: [],
-      actorsData: []
+      keys: ["id", "name"],
+      search: ""
     };
   },
 
@@ -34,8 +51,6 @@ export default {
 
   created() {
     this.fetchActors();
-    this.fillActors();
-    this.tcolumn = Object.keys(this.actors[0]);
   },
 
   methods: {
@@ -43,15 +58,16 @@ export default {
       fetch("/list/actor")
         .then(res => res.json())
         .then(res => {
-          this.actorsData = res;
-          console.log(this.actorsData);
+          this.actors = res;
+          console.log(this.actors);
         });
-    },
-    fillActors() {
-      this.actors = [];
-      this.actorsData.forEach(element => {
-        let actor = { id: element.id, name: element.name };
-        this.actors.push(actor);
+    }
+  },
+
+  computed: {
+    filteredActors: function() {
+      return this.actors.filter(actor => {
+        return actor.name.match(this.search);
       });
     }
   }
@@ -61,16 +77,14 @@ export default {
 <style scoped>
 table {
   font-family: "Open Sans", sans-serif;
-  width: 750px;
   border-collapse: collapse;
-  border: 3px solid #44475c;
-  margin: 10px 10px 0 10px;
+  border: 3px solid #36ecbf;
 }
 
 table th {
   text-transform: uppercase;
   text-align: left;
-  background: #44475c;
+  background: #36ecbf;
   color: #fff;
   padding: 8px;
   min-width: 30px;
@@ -79,12 +93,14 @@ table th {
 table td {
   text-align: left;
   padding: 8px;
-  border-right: 2px solid #7d82a8;
+  border-right: 2px solid #36ecbf;
 }
+
 table td:last-child {
   border-right: none;
 }
+
 table tbody tr:nth-child(2n) td {
-  background: #d4d8f9;
+  background: #c2f5e8;
 }
 </style>
