@@ -26,6 +26,10 @@ Vue.component('actor', require('./components/ActorComponent.vue').default);
 Vue.component('actors', require('./components/ActorsComponent.vue').default);
 Vue.component('actor-form', require('./components/ActorFormComponent.vue').default);
 Vue.component('actors-search', require('./components/ActorsSearchComponent.vue').default);
+Vue.component('film', require('./components/FilmComponent.vue').default);
+Vue.component('films', require('./components/FilmsComponent.vue').default);
+Vue.component('film-form', require('./components/FilmFormComponent.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -37,6 +37,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <div id="app">
@@ -142,7 +143,7 @@
 
     <footer class="footer">
         <div class="content has-text-centered">
-            <small>Here comes some footer</small>
+            <small>&copy; FH Technikum Wien, BIC4, Daniel Belu, Rainhardt Gabriel, Benjamin Lentsch, Silvi Vladi</small>
         </div>
     </footer>
 </div>
