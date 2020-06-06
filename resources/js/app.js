@@ -25,6 +25,7 @@ Vue.component('query-message', require('./components/base/QueryMessage.vue').def
 Vue.component('actor', require('./components/ActorComponent.vue').default);
 Vue.component('actors', require('./components/ActorsComponent.vue').default);
 Vue.component('actor-form', require('./components/ActorFormComponent.vue').default);
+Vue.component('actors-search', require('./components/ActorsSearchComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
